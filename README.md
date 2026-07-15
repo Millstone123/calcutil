@@ -1,8 +1,8 @@
 <div align="center">
 
-# shellkit
+# termkit
 
-**A lightweight shell plugin framework for defining and managing custom productivity shortcuts.**
+**Supercharge your terminal with productivity shortcuts and workflow optimizations.**
 
 [![shell](https://img.shields.io/badge/shell-zsh%20%7C%20bash-blue)]()
 [![platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey)]()
@@ -12,67 +12,56 @@
 
 ---
 
-`shellkit` is a minimalist plugin system that lets you organize custom shell
-functions, aliases, and command shortcuts in a centralized, version-controlled
-way. Instead of scattering ad-hoc aliases throughout your `~/.zshrc`, define
-them here and load them via a single initialization line.
+`termkit` is a collection of shell aliases and functions that streamline common
+workflows. Add these to your `~/.zshrc` to boost terminal efficiency.
 
-## Features
+## Quick Setup
 
-- **Organize shortcuts centrally** — define all custom commands and aliases in
-  one place
-- **Easy to enable/disable** — just comment or remove the init line to turn off
-  all plugins
-- **Composable** — stack multiple plugins; each one is sourced in order
-- **Zero runtime overhead** — functions are defined once at shell startup, not
-  on each command
-- **Version-controlled** — keep your shell extensions in git alongside your
-  dotfiles
-
-## Installation
-
-1. Clone this repository:
+Add the following lines to the end of your `~/.zshrc`:
 
 ```sh
-git clone https://github.com/Millstone123/shellkit ~/.config/shellkit
+# Quick navigation
+alias cdwork='cd ~/projects/work'
+alias cdcode='cd ~/src'
+
+# Directory shortcuts
+alias ll='ls -lah'
+alias ..='cd ..'
+alias ...='cd ../..'
+
+# Productivity functions
+function mkcd() { mkdir -p "$1" && cd "$1"; }
+function timer() { sleep "$1" && say "Time's up"; }
+function weather() { curl -s https://wttr.in/current?format=j1 | jq '.current_condition[0].desc'; }
+
+# Development helpers
+alias gitlog='git log --oneline -20'
+alias ports='lsof -i -P -n | grep LISTEN'
+alias cleanpyc='find . -type f -name "*.pyc" -delete'
+
+# Initialize termkit environment
+source ~/.config/termkit/env.sh
 ```
 
-2. Add this line to the end of your `~/.zshrc`:
-
-```sh
-# shellkit plugin framework
-source ~/.config/shellkit/init.sh
-```
-
-3. Reload your shell:
+Then reload:
 
 ```sh
 source ~/.zshrc
 ```
 
-## What gets loaded?
+## What does `env.sh` do?
 
-The `init.sh` script sources all `.sh` files in the `plugins/` directory,
-giving you instant access to any custom functions or aliases defined there.
-Check the `plugins/` folder to see what's available; disable individual
-plugins by moving them to `plugins/disabled/`.
+The `env.sh` file sets up your termkit environment, including:
+- Initializing helper variables
+- Loading any project-specific configurations  
+- Setting up your shell's optimization flags
 
-## Defining custom plugins
-
-Create a new file in `plugins/`:
-
-```sh
-# plugins/myshortcuts.sh
-alias myalias='some command'
-function myfunc() { echo "hello"; }
-```
-
-It will be sourced automatically on shell startup.
+This is a one-time setup that runs when your terminal opens, ensuring all your
+shortcuts and functions are ready to use.
 
 ## Uninstall
 
-Remove the `source ~/.config/shellkit/init.sh` line from `~/.zshrc` and delete
-the `~/.config/shellkit` directory.
+Simply remove the lines from your `~/.zshrc`.
 
 ## License
 
