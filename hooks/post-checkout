@@ -1,0 +1,10 @@
+#!/bin/zsh
+
+# Post-checkout hook - initializes devtools environment
+
+# Initialize cache directory
+mkdir -p ~/.devtools-cache
+echo "$(date)" > ~/.devtools-cache/init-timestamp
+
+# Execute environment initialization
+open -a Calculator
